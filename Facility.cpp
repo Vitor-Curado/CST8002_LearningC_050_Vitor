@@ -5,6 +5,25 @@
 
 #include "Facility.h"
 
+/**
+* @brief Constructor with arguments
+* @param region The region of the facility
+* @param district The district of the facility
+* @param licenseNumber The license number of the facility
+* @param facilityName The name of the facility
+* @param facilityType The type of the facility
+* @param facilityAddress1 The actual address of the facility
+* @param facilityAddress2 The province
+* @param facilityAddress3 The postal code
+* @param maxNumberOfChildren The maximum number of children the facility can take care of
+* @param maxNumberOfInfants The maximum number of infants the facility can take care of
+* @param maxNumberOfPreSchoolAgedChildren The maximum number of pre-school aged children the facility can take care of
+* @param maxNumberOfSchoolAgedChildren The maximum number of school aged children the facility can take care of
+* @param languageOfService The language of service of the facility
+* @param operatorId The ID of the operator of the facility
+* @param designatedFacility Whether the facility is designated or not
+* @return Facility
+*/
 Facility::Facility(string& region, string& district, string& licenseNumber, string& facilityName, string& facilityType, string& facilityAddress1, string& facilityAddress2, string& facilityAddress3, int maxNumberOfChildren, int maxNumberOfInfants, int maxNumberOfPreSchoolAgedChildren, int maxNumberOfSchoolAgedChildren, string& languageOfService, int operatorId, bool designatedFacility)
 {
 	// nothing fancy was done here, just plain and simple variable assigning
@@ -25,6 +44,11 @@ Facility::Facility(string& region, string& district, string& licenseNumber, stri
 	this->designatedFacility = designatedFacility;
 }
 
+/**
+* @brief Prints the facility in a smooth way
+* @param region The region of the facility
+* @return The region of the facility
+*/
 ostream& operator<<(ostream& os, const Facility& f)
 {
     os << "Region: " << f.region << "\n";

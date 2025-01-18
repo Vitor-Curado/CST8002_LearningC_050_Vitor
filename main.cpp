@@ -1,13 +1,23 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <vector>
+// Course number and name: CST8002_050 Programming Language Research Project
+// Your professor’s name: Todd Keuleman
+// the due date: Jan 26th
+// and your name as the author of the file: Vitor Curado, 041090973
+
 #include "Facility.h"
+#include <fstream>
+#include <vector>
 #include <sstream>
 
 
 using namespace std;
 
+/*
+* @brief Main function
+* 
+* Here is where the fun happens, usually.
+* 
+* @return 0
+*/
 int main() {
 
 	fstream file("Licensed_Early_Learning_and_Childcare_Facilities.csv");
@@ -81,9 +91,16 @@ int main() {
 
 		// Printing the size of the vector
 		cout << endl << "Size of the vector: " << data.size() << endl;
+		cout << "This program was done by Mr. Vitor Braga Marques Curado, El Grande fromage suisse" << endl;
 	}
-
-	
 
 	return 0;
 }
+
+// Post learning notes:
+// According to my boy, chatGPT, when documenting code in C++, usually both the header file, and the cpp file are documented.
+// but... the header file is usually documented with less details, since it's probably going to be included in multiple files, while
+// the cpp file is documented with more details, since it's the file that contains the implementation of the class.
+// --------------------
+// Remember to manually click on the files to add to be committed on GitHub.
+// --------------------
