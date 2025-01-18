@@ -36,6 +36,8 @@ int main() {
 			int maxNumberOfChildren, maxNumberOfInfants, maxNumberOfPreSchoolAgedChildren, maxNumberOfSchoolAgedChildren, operatorId;
 			bool designatedFacility;
 
+			// Tweaks I did to make the parsing work. 
+			string rest;
 			// Parsing the line
 			getline(ss, region, ',');
 			getline(ss, district, ',');
@@ -43,6 +45,7 @@ int main() {
 			getline(ss, facilityName, ',');
 			getline(ss, facilityType, ',');
 			getline(ss, facilityAddress1, ',');
+			getline(ss, rest, ',');
 			getline(ss, facilityAddress2, ',');
 			getline(ss, facilityAddress3, ',');
 			ss >> maxNumberOfChildren;
@@ -61,13 +64,23 @@ int main() {
 			ss.ignore();
 			ss >> designatedFacility;
 
+			// Fine tuning, erasing the annoying quotes
+			facilityAddress1 = facilityAddress1 + rest;
+			facilityAddress1.erase(0, 1);
+			facilityAddress1.erase(facilityAddress1.size() - 1);
+
 			// Creating the object and pushing it to the vector
 			Facility f(region, district, licenseNumber, facilityName, facilityType, facilityAddress1, facilityAddress2, facilityAddress3, maxNumberOfChildren, maxNumberOfInfants, maxNumberOfPreSchoolAgedChildren, maxNumberOfSchoolAgedChildren, languageOfService, operatorId, designatedFacility);
 			data.push_back(f);
 		}
 
+		// Printing the first 5 elements of the vector
+		for (int i = 0; i < 5; i++) {
+			cout << data[i] << endl;
+		}
+
 		// Printing the size of the vector
-		cout << "Size of the vector: " << data.size() << endl;
+		cout << endl << "Size of the vector: " << data.size() << endl;
 	}
 
 	
