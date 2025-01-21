@@ -131,6 +131,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Facility.h" />
+    <ClInclude Include="FacilityController.h" />
+    <ClInclude Include="FacilityView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Facility.cpp" />
