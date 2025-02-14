@@ -1,5 +1,7 @@
 #include "File.h"
 
+using namespace std;
+
 File::File()
 {
 	file.open("Licensed_Early_Learning_and_Childcare_Facilities.csv");
@@ -89,8 +91,83 @@ int File::load()
 	return data.size();
 }
 
-bool File::save()
+int File::save() {
+	// Open the file in read mode
+	file.open("Licensed_Early_Learning_and_Childcare_Facilities.csv", ios::in);
+
+	// count the number of rows
+	int rows = 0;
+	while (getline(file, line)) {
+		rows++;
+	}
+
+	// Close the file
+	file.close();
+
+	// Save current file, overwriting the existing file
+	file.open("Licensed_Early_Learning_and_Childcare_Facilities.csv", ios::out);
+
+	if (!file.is_open()) {
+		return false;
+	}
+
+	// write the header
+	file << "Region,District,License Number,Facility Name,Facility Type,Facility Address 1,Facility Address 2,Facility Address 3,Max Number of Children,Max Number of Infants,Max Number of Pre-School Aged Children,Max Number of School Aged Children,Language of Service,Operator ID,Designated Facility" << endl;
+
+	// write the data
+	for (int i = 0; i < data.size(); i++) {
+		file << data[i].getRegion() << ","
+			<< data[i].getDistrict() << ","
+			<< data[i].getLicenseNumber() << ","
+			<< data[i].getFacilityName() << ","
+			<< data[i].getFacilityType() << ","
+			<< data[i].getFacilityAddress1() << ","
+			<< data[i].getFacilityAddress2() << ","
+			<< data[i].getFacilityAddress3() << ","
+			<< data[i].getMaxNumberOfChildren() << ","
+			<< data[i].getMaxNumberOfInfants() << ","
+			<< data[i].getMaxNumberOfPreSchoolAgedChildren() << ","
+			<< data[i].getMaxNumberOfSchoolAgedChildren() << ","
+			<< data[i].getLanguageOfService() << ","
+			<< data[i].getOperatorId() << ","
+			<< data[i].getDesignatedFacility() << endl;
+	}
+
+	// return number of rows affected
+	return data.size() - rows;
+}
+
+bool File::save(string& newFileName)
 {
+	fstream file = fstream(newFileName, ios::out);
+
+	if (!file.is_open()) {
+		return false;
+	}
+	else {
+		// write the header
+		file << "Region,District,License Number,Facility Name,Facility Type,Facility Address 1,Facility Address 2,Facility Address 3,Max Number of Children,Max Number of Infants,Max Number of Pre-School Aged Children,Max Number of School Aged Children,Language of Service,Operator ID,Designated Facility" << endl;
+
+		// write the data
+		for (int i = 0; i < data.size(); i++) {
+			file << data[i].getRegion() << ","
+				<< data[i].getDistrict() << ","
+				<< data[i].getLicenseNumber() << ","
+				<< data[i].getFacilityName() << ","
+				<< data[i].getFacilityType() << ","
+				<< data[i].getFacilityAddress1() << ","
+				<< data[i].getFacilityAddress2() << ","
+				<< data[i].getFacilityAddress3() << ","
+				<< data[i].getMaxNumberOfChildren() << ","
+				<< data[i].getMaxNumberOfInfants() << ","
+				<< data[i].getMaxNumberOfPreSchoolAgedChildren() << ","
+				<< data[i].getMaxNumberOfSchoolAgedChildren() << ","
+				<< data[i].getLanguageOfService() << ","
+				<< data[i].getOperatorId() << ","
+				<< data[i].getDesignatedFacility() << endl;
+		}
+	}
+
 	return false;
 }
 
@@ -127,7 +204,7 @@ bool File::modifyFacility(int operatorId)
 		throw exception("Facility not found");
 	}
 	else {
-		char choice;
+		char choice{};
 		// Display the facility
 		data[index].display(cout);
 
@@ -406,6 +483,82 @@ bool File::modifyFacility(int operatorId)
 	}
 }
 
+bool File::modifyFacility(string& licenseNumber)
+{
+	int index = searchFacility(licenseNumber);
+	// if the facility is not found
+	if (index < 0) {
+		throw exception("Facility not found");
+	}
+	else {
+		char choice{};
+		// Display the facility
+		data[index].display(cout);
+		// Ask if user wants to modify each field, if yes, then modify
+		cout << "Would you like to modify the region? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string region;
+				cout << "Enter the new region: ";
+				cin >> region;
+				data[index].setRegion(region);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+		cout << "Would you like to modify the district? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string district;
+				cout << "Enter the new district: ";
+				cin >> district;
+				data[index].setDistrict(district);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+		cout << "Would you like to modify the license number? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string licenseNumber;
+				cout << "Enter the new license number: ";
+				cin >> licenseNumber;
+				data[index].setLicenseNumber(licenseNumber);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+		cout << "Would you like to modify the facility name? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string facilityName;
+				cout << "Enter the new facility name: ";
+				cin >> facilityName;
+				data[index].setFacilityName(facilityName);
+				break;
+			}
+		}
+	}
+}
+
 bool File::createFacility()
 {
 	// ask user if one would like to create from scratch, or default values
@@ -470,8 +623,10 @@ bool File::createFacility()
 		}
 
 		else if (choice == 2) {
-			string empty = "";
-			data.push_back(Facility(empty, empty, empty, empty, empty, empty, empty, empty, 0, 0, 0, 0, empty, 0, false));
+			cout << "tell me a random string then press enter" << endl;
+			string randomString;
+			cin >> randomString;
+			data.push_back(Facility(randomString, randomString, randomString, randomString, randomString, randomString, randomString, randomString, 0, 0, 0, 0, randomString, 0, false));
 			return true;
 		}
 		else if (choice == 3) {
@@ -515,6 +670,13 @@ int File::searchFacility(int operatorId)
 		}
 	}
 	return index;
+}
+
+void File::displayAllFacilities()
+{
+	for (int i = 0; i < data.size(); i++) {
+		data[i].display(cout);
+	}
 }
 
 

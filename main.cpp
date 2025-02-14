@@ -5,10 +5,6 @@
 
 #include "Facility.h"
 #include "File.h"
-#include <fstream>
-#include <vector>
-#include <sstream>
-#include <iostream>
 
 
 using namespace std;
@@ -22,116 +18,116 @@ using namespace std;
 */
 int main() {
 
-	fstream file("Licensed_Early_Learning_and_Childcare_Facilities.csv");
+	string correctFileName = "Licensed_Early_Learning_and_Childcare_Facilities.csv";
+	string wrongFileName = "Licensed_Early_Learning_and_Childcare_Facilities.txt";
+	File file(correctFileName);
+	int choice = 0;
 	int input;
-	string line;
-	vector<Facility> data;
 
-	if (!file) {
-		cout << "Error opening file" << endl;
-		return 1;
-	}
+	while (true) {
+		// Display menu
 
-	else {
-		// reads the inital row, which is the header
-		getline(file, line);
-
-		// Reading the data
-		while (getline(file, line)) {
-			stringstream ss(line);
-
-			// object we have to fill has properties as follows:
-			// string& region, string& district, string& licenseNumber, string& facilityName, string& facilityType, string& facilityAddress1, string& facilityAddress2, string& facilityAddress3, int maxNumberOfChildren, int maxNumberOfInfants, int maxNumberOfPreSchoolAgedChildren, int maxNumberOfSchoolAgedChildren, string& languageOfService, int operatorId, bool designatedFacility
-			// sample row:
-			// Region 2 - Saint John,Anglophone South School District,215034,ORIGINS NLC 215,Full-time Centre,"567 Millidge Avenue,x Saint John",NB,E2K 2N5,40,9,31,0,English,236706,1
-			// variables defined as per the properties of the object
-			string region, district, licenseNumber, facilityName, facilityType, facilityAddress1, facilityAddress2, facilityAddress3, languageOfService;
-			int maxNumberOfChildren, maxNumberOfInfants, maxNumberOfPreSchoolAgedChildren, maxNumberOfSchoolAgedChildren, operatorId;
-			bool designatedFacility;
-
-			// Tweaks I did to make the parsing work. 
-			string rest;
-			// Parsing the line
-			getline(ss, region, ',');
-			getline(ss, district, ',');
-			getline(ss, licenseNumber, ',');
-			getline(ss, facilityName, ',');
-			getline(ss, facilityType, ',');
-			getline(ss, facilityAddress1, ',');
-			getline(ss, rest, ',');
-			getline(ss, facilityAddress2, ',');
-			getline(ss, facilityAddress3, ',');
-			ss >> maxNumberOfChildren;
-
-			// Note to self: .ignore() is used to ignore the comma after the integer
-			// it is different than in the case of getline() where the delimiter is the comma
-			ss.ignore();
-			ss >> maxNumberOfInfants;
-			ss.ignore();
-			ss >> maxNumberOfPreSchoolAgedChildren;
-			ss.ignore();
-			ss >> maxNumberOfSchoolAgedChildren;
-			ss.ignore();
-			getline(ss, languageOfService, ',');
-			ss >> operatorId;
-			ss.ignore();
-			ss >> designatedFacility;
-
-			// Fine tuning, erasing the annoying quotes
-			facilityAddress1 = facilityAddress1 + rest;
-			facilityAddress1.erase(0, 1);
-			facilityAddress1.erase(facilityAddress1.size() - 1);
-
-			// Creating the object and pushing it to the vector
-			Facility f(region, district, licenseNumber, facilityName, facilityType, facilityAddress1, facilityAddress2, facilityAddress3, maxNumberOfChildren, maxNumberOfInfants, maxNumberOfPreSchoolAgedChildren, maxNumberOfSchoolAgedChildren, languageOfService, operatorId, designatedFacility);
-			data.push_back(f);
-		}
-
-		// Printing the first 5 elements of the vector
-		for (int i = 35; i < 40; i++) {
-			cout << data[i] << endl;
-		}
-
-		// Printing the size of the vector
-		cout << endl << "Size of the vector: " << data.size() << endl;
 		cout << "Menu: " << endl;
 		cout << "1 - Reload facility data" << endl;
-		cout << "2 - Save" << endl;
-		cout << "3 - Display facility" << endl;
-		cout << "4 - Create a new facility" << endl;
-		cout << "5 - Modify facility" << endl;
-		cout << "6 - Delete facility" << endl;
-		cout << "7 - Exit" << endl;
-
+		cout << "2 - Save current file" << endl;
+		cout << "3 - Save as new file" << endl;
+		cout << "4 - Display facility" << endl;
+		cout << "5 - Create a new facility" << endl;
+		cout << "6 - Modify facility" << endl;
+		cout << "7 - Delete facility" << endl;
+		cout << "8 - Exit" << endl;
 		cin >> input;
-
-		if (input == 1) {
+		switch (input) {
+		case 1:
 			// Reload facility data
+			file.load();
+			break;
 
-		}
-		else if (input == 2) {
-			// Save
-		}
-		else if (input == 3) {
+		case 2:
+			// Save current memory onto file, appending
+			file.save();
+			break;
+
+		case 3:
+			// Save as new file
+			file.save(wrongFileName);
+			break;
+
+		case 4:
 			// Display facility
-		}
-		else if (input == 4) {
-			// Create a new facility
-		}
-		else if (input == 5) {
-			// Modify facility
-		}
-		else if (input == 6) {
-			// Delete facility
-		}
-		else if (input == 7) {
-			// Exit
-		}
-		else {
-			cout << "Invalid input" << endl;
-		}
+			file.displayAllFacilities();
+			break;
 
-		cout << "This program was done by Mr. Vitor Braga Marques Curado, El Grande fromage suisse" << endl;
+		case 5:
+			// Create a new facility
+			file.createFacility();
+			break;
+
+		case 6:
+			// Modify facility
+			// Ask if user wants to look up license number, or operator ID
+			cout << "Would you like to look up the facility by license number or operator ID?" << endl;
+			cout << "1 - License number" << endl;
+			cout << "2 - Operator ID" << endl;
+			while (true) {
+				cin >> choice;
+				if (choice == 1) {
+					string licenseNumber;
+					cout << "Enter the license number: ";
+					cin >> licenseNumber;
+					file.modifyFacility(licenseNumber);
+					break;
+				}
+				else if (choice == 2) {
+					int operatorId;
+					cout << "Enter the operator ID: ";
+					cin >> operatorId;
+					file.modifyFacility(operatorId);
+					break;
+				}
+				else {
+					cout << "Invalid choice" << endl;
+					cout << "Please try again" << endl;
+				}
+			}
+			break;
+
+		case 7:
+			// Delete facility
+			// Ask for license number or operator ID
+			cout << "Would you like to delete the facility by license number or operator ID?" << endl;
+			cout << "1 - License number" << endl;
+			cout << "2 - Operator ID" << endl;
+			while (true) {
+				cin >> choice;
+				if (choice == 1) {
+					string licenseNumber;
+					cout << "Enter the license number: ";
+					cin >> licenseNumber;
+					file.deleteFacility(licenseNumber);
+					break;
+				}
+				else if (choice == 2) {
+					int operatorId;
+					cout << "Enter the operator ID: ";
+					cin >> operatorId;
+					file.deleteFacility(operatorId);
+					break;
+				}
+				else {
+					cout << "Invalid choice" << endl;
+					cout << "Please try again" << endl;
+				}
+			}
+			break;
+
+		case 8:
+			// Exit
+			cout << "Goodbye" << endl;
+			cout << "This program was done by Mr. Vitor Braga Marques Curado, El Grande fromage suisse" << endl;
+			return 0;
+			break;
+		}
 	}
 
 	return 0;

@@ -1,3 +1,6 @@
+#ifndef FACILITY_H
+#define FACILITY_H
+
 // Course number and name: CST8002_050 Programming Language Research Project
 // Your professor’s name: Todd Keuleman
 // the due date: Jan 26th
@@ -313,3 +316,5 @@ public:
 		return os;
     }
 };
+
+#endif // !FACILITY_H

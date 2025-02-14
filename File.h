@@ -19,7 +19,8 @@ public:
 	File(string& fileName);
 	~File();
 	int load();
-	bool save();
+	int save();
+	bool save(string& newFileName);
 	bool deleteFacility(string& licenseNumber);
 	bool deleteFacility(int operatorId);
 	bool modifyFacility(int operatorId);
@@ -27,6 +28,7 @@ public:
 	bool createFacility();
 	int searchFacility(string& licenseNumber);
 	int searchFacility(int operatorId);
+	void displayAllFacilities();
 };
 
 #endif // !FILE_H
