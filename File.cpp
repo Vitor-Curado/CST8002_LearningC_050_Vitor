@@ -28,6 +28,9 @@ File::~File()
 
 int File::load()
 {
+	// empties the data vector before loading the file
+	data.clear();
+
 	// reads the inital row, which is the header
 	getline(file, line);
 
@@ -91,9 +94,316 @@ bool File::save()
 	return false;
 }
 
-bool File::deleteFacility()
+bool File::deleteFacility(string& licenseNumber)
 {
-	return false;
+	int index = searchFacility(licenseNumber);
+	if (index == -1) {
+		return false;
+	}
+	else {
+		data.erase(data.begin() + index);
+		return true;
+	}
+}
+
+bool File::deleteFacility(int operatorId)
+{
+	int index = searchFacility(operatorId);
+	if (index == -1) {
+		return false;
+	}
+	else {
+		data.erase(data.begin() + index);
+		return true;
+	}
+}
+
+bool File::modifyFacility(int operatorId)
+{
+	int index = searchFacility(operatorId);
+	
+	// if the facility is not found
+	if (index < 0) {
+		throw exception("Facility not found");
+	}
+	else {
+		char choice;
+		// Display the facility
+		data[index].display(cout);
+
+		// Ask if user wants to modify each field, if yes, then modify
+		cout << "Would you like to modify the region? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string region;
+				cout << "Enter the new region: ";
+				cin >> region;
+				data[index].setRegion(region);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the district? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string district;
+				cout << "Enter the new district: ";
+				cin >> district;
+				data[index].setDistrict(district);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the license number? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string licenseNumber;
+				cout << "Enter the new license number: ";
+				cin >> licenseNumber;
+				data[index].setLicenseNumber(licenseNumber);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the facility name? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string facilityName;
+				cout << "Enter the new facility name: ";
+				cin >> facilityName;
+				data[index].setFacilityName(facilityName);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the facility type? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string facilityType;
+				cout << "Enter the new facility type: ";
+				cin >> facilityType;
+				data[index].setFacilityType(facilityType);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the facility address 1? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string facilityAddress1;
+				cout << "Enter the new facility address 1: ";
+				cin >> facilityAddress1;
+				data[index].setFacilityAddress1(facilityAddress1);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the facility address 2? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string facilityAddress2;
+				cout << "Enter the new facility address 2: ";
+				cin >> facilityAddress2;
+				data[index].setFacilityAddress2(facilityAddress2);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the facility address 3? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string facilityAddress3;
+				cout << "Enter the new facility address 3: ";
+				cin >> facilityAddress3;
+				data[index].setFacilityAddress3(facilityAddress3);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the maximum number of children? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				int maxNumberOfChildren;
+				cout << "Enter the new maximum number of children: ";
+				cin >> maxNumberOfChildren;
+				data[index].setMaxNumberOfChildren(maxNumberOfChildren);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the maximum number of infants? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				int maxNumberOfInfants;
+				cout << "Enter the new maximum number of infants: ";
+				cin >> maxNumberOfInfants;
+				data[index].setMaxNumberOfInfants(maxNumberOfInfants);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the maximum number of pre-school aged children? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				int maxNumberOfPreSchoolAgedChildren;
+				cout << "Enter the new maximum number of pre-school aged children: ";
+				cin >> maxNumberOfPreSchoolAgedChildren;
+				data[index].setMaxNumberOfPreSchoolAgedChildren(maxNumberOfPreSchoolAgedChildren);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the maximum number of school aged children? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				int maxNumberOfSchoolAgedChildren;
+				cout << "Enter the new maximum number of school aged children: ";
+				cin >> maxNumberOfSchoolAgedChildren;
+				data[index].setMaxNumberOfSchoolAgedChildren(maxNumberOfSchoolAgedChildren);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the language of service? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				string languageOfService;
+				cout << "Enter the new language of service: ";
+				cin >> languageOfService;
+				data[index].setLanguageOfService(languageOfService);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the operator ID? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				int operatorId;
+				cout << "Enter the new operator ID: ";
+				cin >> operatorId;
+				data[index].setOperatorId(operatorId);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		cout << "Would you like to modify the designated facility? (y/n)" << endl;
+		while (true) {
+			if (choice == 'y') {
+				bool designatedFacility;
+				cout << "Enter the new designated facility: ";
+				cin >> designatedFacility;
+				data[index].setDesignatedFacility(designatedFacility);
+				break;
+			}
+			else if (choice == 'n') {
+				break;
+			}
+			else {
+				cout << "Invalid choice" << endl;
+				cout << "Please try again" << endl;
+			}
+		}
+
+		return true;
+	}
 }
 
 bool File::createFacility()
@@ -186,10 +496,21 @@ bool File::createFacility()
 
 int File::searchFacility(string& licenseNumber)
 {
-	int index = 0;
+	int index = -1;
 
 	for (int i = 0; i < data.size(); i++) {
 		if (data[i].getLicenseNumber() == licenseNumber) {
+			index = i;
+		}
+	}
+	return index;
+}
+
+int File::searchFacility(int operatorId)
+{
+	int index = -1;
+	for (int i = 0; i < data.size(); i++) {
+		if (data[i].getOperatorId() == operatorId) {
 			index = i;
 		}
 	}

@@ -20,10 +20,13 @@ public:
 	~File();
 	int load();
 	bool save();
-	bool deleteFacility();
-	bool modifyFacility();
+	bool deleteFacility(string& licenseNumber);
+	bool deleteFacility(int operatorId);
+	bool modifyFacility(int operatorId);
+	bool modifyFacility(string& licenseNumber);
 	bool createFacility();
 	int searchFacility(string& licenseNumber);
+	int searchFacility(int operatorId);
 };
 
 #endif // !FILE_H
