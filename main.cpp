@@ -4,9 +4,11 @@
 // and your name as the author of the file: Vitor Curado, 041090973
 
 #include "Facility.h"
+#include "File.h"
 #include <fstream>
 #include <vector>
 #include <sstream>
+#include <iostream>
 
 
 using namespace std;
@@ -21,6 +23,7 @@ using namespace std;
 int main() {
 
 	fstream file("Licensed_Early_Learning_and_Childcare_Facilities.csv");
+	int input;
 	string line;
 	vector<Facility> data;
 
@@ -40,7 +43,7 @@ int main() {
 			// object we have to fill has properties as follows:
 			// string& region, string& district, string& licenseNumber, string& facilityName, string& facilityType, string& facilityAddress1, string& facilityAddress2, string& facilityAddress3, int maxNumberOfChildren, int maxNumberOfInfants, int maxNumberOfPreSchoolAgedChildren, int maxNumberOfSchoolAgedChildren, string& languageOfService, int operatorId, bool designatedFacility
 			// sample row:
-			// Region 2 - Saint John,Anglophone South School District,215034,ORIGINS NLC 215,Full-time Centre,"567 Millidge Avenue, Saint John",NB,E2K 2N5,40,9,31,0,English,236706,1
+			// Region 2 - Saint John,Anglophone South School District,215034,ORIGINS NLC 215,Full-time Centre,"567 Millidge Avenue,x Saint John",NB,E2K 2N5,40,9,31,0,English,236706,1
 			// variables defined as per the properties of the object
 			string region, district, licenseNumber, facilityName, facilityType, facilityAddress1, facilityAddress2, facilityAddress3, languageOfService;
 			int maxNumberOfChildren, maxNumberOfInfants, maxNumberOfPreSchoolAgedChildren, maxNumberOfSchoolAgedChildren, operatorId;
@@ -85,12 +88,49 @@ int main() {
 		}
 
 		// Printing the first 5 elements of the vector
-		for (int i = 0; i < 5; i++) {
+		for (int i = 35; i < 40; i++) {
 			cout << data[i] << endl;
 		}
 
 		// Printing the size of the vector
 		cout << endl << "Size of the vector: " << data.size() << endl;
+		cout << "Menu: " << endl;
+		cout << "1 - Reload facility data" << endl;
+		cout << "2 - Save" << endl;
+		cout << "3 - Display facility" << endl;
+		cout << "4 - Create a new facility" << endl;
+		cout << "5 - Modify facility" << endl;
+		cout << "6 - Delete facility" << endl;
+		cout << "7 - Exit" << endl;
+
+		cin >> input;
+
+		if (input == 1) {
+			// Reload facility data
+
+		}
+		else if (input == 2) {
+			// Save
+		}
+		else if (input == 3) {
+			// Display facility
+		}
+		else if (input == 4) {
+			// Create a new facility
+		}
+		else if (input == 5) {
+			// Modify facility
+		}
+		else if (input == 6) {
+			// Delete facility
+		}
+		else if (input == 7) {
+			// Exit
+		}
+		else {
+			cout << "Invalid input" << endl;
+		}
+
 		cout << "This program was done by Mr. Vitor Braga Marques Curado, El Grande fromage suisse" << endl;
 	}
 
