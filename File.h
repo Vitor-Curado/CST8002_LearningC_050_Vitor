@@ -9,6 +9,12 @@
 
 using namespace std;
 
+/**
+* @class File
+* @brief Represents a file. Controller for the facilities
+* 
+* This class represents a file, which is a controller for the facilities.
+*/
 class File {
 private:
 	string line;

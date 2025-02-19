@@ -3,7 +3,7 @@
 
 // Course number and name: CST8002_050 Programming Language Research Project
 // Your professor’s name: Todd Keuleman
-// the due date: Jan 26th
+// the due date: Feb 16th
 // and your name as the author of the file: Vitor Curado, 041090973
 
 #include <string>

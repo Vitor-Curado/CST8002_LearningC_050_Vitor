@@ -132,14 +132,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Facility.h" />
-    <ClInclude Include="FacilityController.h" />
-    <ClInclude Include="FacilityView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Facility.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="File.h" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="utils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,10 +1,11 @@
 // Course number and name: CST8002_050 Programming Language Research Project
 // Your professor’s name: Todd Keuleman
-// the due date: Jan 26th
+// the due date: Feb 16th
 // and your name as the author of the file: Vitor Curado, 041090973
 
 #include "Facility.h"
 #include "File.h"
+
 
 
 using namespace std;
@@ -20,6 +21,7 @@ int main() {
 
 	string correctFileName = "Licensed_Early_Learning_and_Childcare_Facilities.csv";
 	string wrongFileName = "Licensed_Early_Learning_and_Childcare_Facilities.txt";
+	string newFileName;
 	File file(correctFileName);
 	int choice = 0;
 	int input;
@@ -41,26 +43,33 @@ int main() {
 		case 1:
 			// Reload facility data
 			file.load();
+			cout << "memory successfully loaded by Vitor Curado" << endl;
 			break;
 
 		case 2:
 			// Save current memory onto file, appending
 			file.save();
+			cout << "successfully persisted by Vitor Curado" << endl;
 			break;
 
 		case 3:
 			// Save as new file
-			file.save(wrongFileName);
+			cout << "Enter new file name: ";
+			cin >> newFileName;
+			file.save(newFileName);
+			cout << "successfully persisted by Vitor Curado" << endl;
 			break;
 
 		case 4:
 			// Display facility
 			file.displayAllFacilities();
+			cout << "displayed by Vitor Curado" << endl;
 			break;
 
 		case 5:
 			// Create a new facility
 			file.createFacility();
+			cout << "created by Vitor Curado" << endl;
 			break;
 
 		case 6:
@@ -76,6 +85,7 @@ int main() {
 					cout << "Enter the license number: ";
 					cin >> licenseNumber;
 					file.modifyFacility(licenseNumber);
+					cout << "modified by Vitor Curado" << endl;
 					break;
 				}
 				else if (choice == 2) {
@@ -83,11 +93,13 @@ int main() {
 					cout << "Enter the operator ID: ";
 					cin >> operatorId;
 					file.modifyFacility(operatorId);
+					cout << "modified by Vitor Curado" << endl;
 					break;
 				}
 				else {
 					cout << "Invalid choice" << endl;
 					cout << "Please try again" << endl;
+					cout << "this was done by victor" << endl;
 				}
 			}
 			break;
@@ -95,6 +107,7 @@ int main() {
 		case 7:
 			// Delete facility
 			// Ask for license number or operator ID
+			cout << "Victor was here" << endl;
 			cout << "Would you like to delete the facility by license number or operator ID?" << endl;
 			cout << "1 - License number" << endl;
 			cout << "2 - Operator ID" << endl;

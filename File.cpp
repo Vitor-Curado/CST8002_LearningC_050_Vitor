@@ -2,6 +2,11 @@
 
 using namespace std;
 
+/**
+* @brief Default constructor
+* Initializes the file with default values.
+* @throws exception if the file could not be opened
+*/
 File::File()
 {
 	file.open("Licensed_Early_Learning_and_Childcare_Facilities.csv");
@@ -13,6 +18,12 @@ File::File()
 	load();
 }
 
+/**
+* @brief Constructor
+* Initializes the file with customised values.
+* @param fileName The name of the file
+* @throws exception if the file could not be opened
+*/
 File::File(string& fileName)
 {
 	this->file.open(fileName);
@@ -24,10 +35,19 @@ File::File(string& fileName)
 	load();
 }
 
+/**
+* @brief Destructor
+* Closes the file
+*/
 File::~File()
 {
 }
 
+/**
+* @brief Loads the file
+* Reads the file and loads the data into the vector
+* @return The number of rows loaded
+*/
 int File::load()
 {
 	// empties the data vector before loading the file
@@ -91,6 +111,11 @@ int File::load()
 	return data.size();
 }
 
+/**
+* @brief Saves the file
+* Saves the data from the vector to the file
+* @return The number of rows affected
+*/
 int File::save() {
 	// Open the file in read mode
 	file.open("Licensed_Early_Learning_and_Childcare_Facilities.csv", ios::in);
@@ -137,6 +162,12 @@ int File::save() {
 	return data.size() - rows;
 }
 
+/**
+* @brief Saves the file as a new file
+* Saves the data from the vector to a new file
+* @param newFileName The name of the new file
+* @return Whether the file was saved or not
+*/
 bool File::save(string& newFileName)
 {
 	fstream file = fstream(newFileName, ios::out);
@@ -171,6 +202,12 @@ bool File::save(string& newFileName)
 	return false;
 }
 
+/**
+* @brief Deletes a facility by license number
+* Deletes a facility by license number
+* @param licenseNumber The license number of the facility
+* @return Whether the facility was deleted or not
+*/
 bool File::deleteFacility(string& licenseNumber)
 {
 	int index = searchFacility(licenseNumber);
@@ -183,6 +220,12 @@ bool File::deleteFacility(string& licenseNumber)
 	}
 }
 
+/**
+* @brief Deletes a facility by operator ID
+* Deletes a facility by operator ID
+* @param operatorId The operator ID of the facility
+* @return Whether the facility was deleted or not
+*/
 bool File::deleteFacility(int operatorId)
 {
 	int index = searchFacility(operatorId);
@@ -195,6 +238,12 @@ bool File::deleteFacility(int operatorId)
 	}
 }
 
+/**
+* @brief Modifies a facility by operator ID
+* Modifies a facility by operator ID
+* @param operatorId The operator ID of the facility
+* @return Whether the facility was modified or not
+*/
 bool File::modifyFacility(int operatorId)
 {
 	int index = searchFacility(operatorId);
@@ -483,6 +532,12 @@ bool File::modifyFacility(int operatorId)
 	}
 }
 
+/**
+* @brief Modifies a facility by license number
+* Modifies a facility by license number
+* @param licenseNumber The license number of the facility
+* @return Whether the facility was modified or not
+*/
 bool File::modifyFacility(string& licenseNumber)
 {
 	int index = searchFacility(licenseNumber);
@@ -559,6 +614,11 @@ bool File::modifyFacility(string& licenseNumber)
 	}
 }
 
+/**
+* @brief Creates a facility
+* Creates a facility
+* @return Whether the facility was created or not
+*/
 bool File::createFacility()
 {
 	// ask user if one would like to create from scratch, or default values
@@ -649,6 +709,12 @@ bool File::createFacility()
 	}
 }
 
+/**
+* @brief Searches for a facility by license number
+* Searches for a facility by license number
+* @param licenseNumber The license number of the facility
+* @return The index of the facility
+*/
 int File::searchFacility(string& licenseNumber)
 {
 	int index = -1;
@@ -661,6 +727,12 @@ int File::searchFacility(string& licenseNumber)
 	return index;
 }
 
+/**
+* @brief Searches for a facility by operator ID
+* Searches for a facility by operator ID
+* @param operatorId The operator ID of the facility
+* @return The index of the facility
+*/
 int File::searchFacility(int operatorId)
 {
 	int index = -1;
@@ -672,6 +744,10 @@ int File::searchFacility(int operatorId)
 	return index;
 }
 
+/**
+* @brief Displays all facilities
+* Displays all facilities
+*/
 void File::displayAllFacilities()
 {
 	for (int i = 0; i < data.size(); i++) {
