@@ -8,6 +8,7 @@
 
 #include <string>
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -292,29 +293,37 @@ public:
 	friend ostream& operator<<(ostream& os, const Facility& f);
 
 	/**
-	* @brief Display the facility
-	* @param os The output stream
-	* @return The output stream
+	* @brief Display the facility information in a well-formatted manner.
+	* @param os The output stream.
+	* @return The output stream.
 	*/
-    ostream& display(ostream& os) const {
-		os << "Region: " << region << "\n"
-		<< "District: " << district << "\n"
-		<< "License Number: " << licenseNumber << "\n"
-		<< "Facility Name: " << facilityName << "\n"
-		<< "Facility Type: " << facilityType << "\n"
-		<< "Facility Address1: " << facilityAddress1 << "\n"
-		<< "Facility Address2: " << facilityAddress2 << "\n"
-		<< "Facility Address3: " << facilityAddress3 << "\n"
-		<< "Max Number Of Children: " << maxNumberOfChildren << "\n"
-		<< "Max Number Of Infants: " << maxNumberOfInfants << "\n"
-		<< "Max Number Of PreSchool Aged Children: " << maxNumberOfPreSchoolAgedChildren << "\n"
-		<< "Max Number Of School Aged Children: " << maxNumberOfSchoolAgedChildren << "\n"
-		<< "Language Of Service: " << languageOfService << "\n"
-		<< "Operator Id: " << operatorId << "\n"
-		<< "Designated Facility: " << (designatedFacility ? "Yes" : "No") << "\n"
-		<< "\n";
+	ostream& display(ostream& os) const {
+		const int labelWidth = 25;
+
+		os << std::left << std::setw(labelWidth) << "Region:" << region << "\n"
+			<< std::setw(labelWidth) << "District:" << district << "\n"
+			<< std::setw(labelWidth) << "License Number:" << licenseNumber << "\n"
+			<< std::setw(labelWidth) << "Facility Name:" << facilityName << "\n"
+			<< std::setw(labelWidth) << "Facility Type:" << facilityType << "\n"
+			<< std::setw(labelWidth) << "Facility Address:" << facilityAddress1 << ", " << facilityAddress2 << ", " << facilityAddress3 << "\n"
+			<< std::setw(labelWidth) << "Max Capacity:" << maxNumberOfChildren + maxNumberOfInfants + maxNumberOfPreSchoolAgedChildren + maxNumberOfSchoolAgedChildren << "\n";
+			// Display max numbers only if they are non-zero
+			if (maxNumberOfChildren)
+				os << std::setw(labelWidth) << "- Children:" << maxNumberOfChildren << "\n";
+			if (maxNumberOfInfants)
+				os << std::setw(labelWidth) << "- Infants:" << maxNumberOfInfants << "\n";
+			if (maxNumberOfPreSchoolAgedChildren)
+				os << std::setw(labelWidth) << "- Preschool Aged:" << maxNumberOfPreSchoolAgedChildren << "\n";
+			if (maxNumberOfSchoolAgedChildren)
+				os << std::setw(labelWidth) << "- School Aged:" << maxNumberOfSchoolAgedChildren << "\n";
+
+		os << std::setw(labelWidth) << "Language of Service:" << languageOfService << "\n"
+			<< std::setw(labelWidth) << "Operator ID:" << operatorId << "\n"
+			<< std::setw(labelWidth) << "Designated Facility:" << (designatedFacility ? "Yes" : "No") << "\n"
+			<< std::string(50, '-') << "\n"; // Separator line for clarity
+
 		return os;
-    }
+	}
 };
 
 #endif // !FACILITY_H

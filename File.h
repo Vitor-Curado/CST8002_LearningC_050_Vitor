@@ -20,6 +20,7 @@ private:
 	string line;
 	vector<Facility> data;
 	fstream file;
+	string fileName; // Add a member to store the file name
 public:
 	File();
 	File(string& fileName);
@@ -27,14 +28,15 @@ public:
 	int load();
 	int save();
 	bool save(string& newFileName);
-	bool deleteFacility(string& licenseNumber);
 	bool deleteFacility(int operatorId);
 	bool modifyFacility(int operatorId);
-	bool modifyFacility(string& licenseNumber);
 	bool createFacility();
-	int searchFacility(string& licenseNumber);
 	int searchFacility(int operatorId);
-	void displayAllFacilities();
+	ostream& displayAllFacilities();
+	ostream& displayFacility(int operatorId);
+	bool isOpen() { return file.is_open(); }
+	bool isGood() { return file.good(); }
+	string getFileName() { return file.is_open() ? fileName : ""; } // Use the new member to return the file name
 };
 
 #endif // !FILE_H

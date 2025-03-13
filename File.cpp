@@ -26,6 +26,7 @@ File::File()
 */
 File::File(string& fileName)
 {
+	this->fileName = fileName;
 	this->file.open(fileName);
 	if (!file.is_open()) {
 		throw exception("Error inside the constructor: could not open file");
@@ -50,8 +51,14 @@ File::~File()
 */
 int File::load()
 {
-	// empties the data vector before loading the file
-	data.clear();
+
+	if (!file.is_open()) { return -1; }
+	file.clear();  // Clears End Of File flag
+	file.seekg(0, ios::beg);  // Moves file cursor to the beginning
+
+
+	// checks if data vector has data, then cleans if positive
+	if (data.size() > 0) { data.clear(); }
 
 	// reads the inital row, which is the header
 	getline(file, line);
@@ -108,7 +115,7 @@ int File::load()
 	}
 
 	// return the number of rows loaded
-	return data.size();
+	return data.size() > 0? data.size() : -1;
 }
 
 /**
@@ -200,24 +207,6 @@ bool File::save(string& newFileName)
 	}
 
 	return false;
-}
-
-/**
-* @brief Deletes a facility by license number
-* Deletes a facility by license number
-* @param licenseNumber The license number of the facility
-* @return Whether the facility was deleted or not
-*/
-bool File::deleteFacility(string& licenseNumber)
-{
-	int index = searchFacility(licenseNumber);
-	if (index == -1) {
-		return false;
-	}
-	else {
-		data.erase(data.begin() + index);
-		return true;
-	}
 }
 
 /**
@@ -533,88 +522,6 @@ bool File::modifyFacility(int operatorId)
 }
 
 /**
-* @brief Modifies a facility by license number
-* Modifies a facility by license number
-* @param licenseNumber The license number of the facility
-* @return Whether the facility was modified or not
-*/
-bool File::modifyFacility(string& licenseNumber)
-{
-	int index = searchFacility(licenseNumber);
-	// if the facility is not found
-	if (index < 0) {
-		throw exception("Facility not found");
-	}
-	else {
-		char choice{};
-		// Display the facility
-		data[index].display(cout);
-		// Ask if user wants to modify each field, if yes, then modify
-		cout << "Would you like to modify the region? (y/n)" << endl;
-		while (true) {
-			if (choice == 'y') {
-				string region;
-				cout << "Enter the new region: ";
-				cin >> region;
-				data[index].setRegion(region);
-				break;
-			}
-			else if (choice == 'n') {
-				break;
-			}
-			else {
-				cout << "Invalid choice" << endl;
-				cout << "Please try again" << endl;
-			}
-		}
-		cout << "Would you like to modify the district? (y/n)" << endl;
-		while (true) {
-			if (choice == 'y') {
-				string district;
-				cout << "Enter the new district: ";
-				cin >> district;
-				data[index].setDistrict(district);
-				break;
-			}
-			else if (choice == 'n') {
-				break;
-			}
-			else {
-				cout << "Invalid choice" << endl;
-				cout << "Please try again" << endl;
-			}
-		}
-		cout << "Would you like to modify the license number? (y/n)" << endl;
-		while (true) {
-			if (choice == 'y') {
-				string licenseNumber;
-				cout << "Enter the new license number: ";
-				cin >> licenseNumber;
-				data[index].setLicenseNumber(licenseNumber);
-				break;
-			}
-			else if (choice == 'n') {
-				break;
-			}
-			else {
-				cout << "Invalid choice" << endl;
-				cout << "Please try again" << endl;
-			}
-		}
-		cout << "Would you like to modify the facility name? (y/n)" << endl;
-		while (true) {
-			if (choice == 'y') {
-				string facilityName;
-				cout << "Enter the new facility name: ";
-				cin >> facilityName;
-				data[index].setFacilityName(facilityName);
-				break;
-			}
-		}
-	}
-}
-
-/**
 * @brief Creates a facility
 * Creates a facility
 * @return Whether the facility was created or not
@@ -710,24 +617,6 @@ bool File::createFacility()
 }
 
 /**
-* @brief Searches for a facility by license number
-* Searches for a facility by license number
-* @param licenseNumber The license number of the facility
-* @return The index of the facility
-*/
-int File::searchFacility(string& licenseNumber)
-{
-	int index = -1;
-
-	for (int i = 0; i < data.size(); i++) {
-		if (data[i].getLicenseNumber() == licenseNumber) {
-			index = i;
-		}
-	}
-	return index;
-}
-
-/**
 * @brief Searches for a facility by operator ID
 * Searches for a facility by operator ID
 * @param operatorId The operator ID of the facility
@@ -748,11 +637,28 @@ int File::searchFacility(int operatorId)
 * @brief Displays all facilities
 * Displays all facilities
 */
-void File::displayAllFacilities()
+ostream& File::displayAllFacilities()
 {
 	for (int i = 0; i < data.size(); i++) {
 		data[i].display(cout);
 	}
+
+	return cout;
 }
 
+ostream& File::displayFacility(int operatorId)
+{
+	// search for the facility
+	int index = searchFacility(operatorId);
 
+	// if the facility is not found
+	if (index < 0) {
+		throw exception("Facility not found");
+	}
+	else {
+		// Display the facility
+		data[index].display(cout);
+	}
+
+	return cout;
+}

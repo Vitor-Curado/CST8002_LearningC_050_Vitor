@@ -6,8 +6,6 @@
 #include "Facility.h"
 #include "File.h"
 
-
-
 using namespace std;
 
 /*
@@ -19,13 +17,24 @@ using namespace std;
 */
 int main() {
 
+	string data = "data.txt";
 	string correctFileName = "Licensed_Early_Learning_and_Childcare_Facilities.csv";
 	string wrongFileName = "Licensed_Early_Learning_and_Childcare_Facilities.txt";
 	string newFileName;
-	File file(correctFileName);
+	File file(data);
 	int choice = 0;
 	int input;
 
+	//cout << file.isGood();
+	//cout << file.isOpen();
+	//cout << file.getFileName();
+	
+
+	//file.displayFacility(215034);
+	file.displayFacility(236706);
+
+
+	/*
 	while (true) {
 		// Display menu
 
@@ -142,7 +151,7 @@ int main() {
 			break;
 		}
 	}
-
+	*/
 	return 0;
 }
 
