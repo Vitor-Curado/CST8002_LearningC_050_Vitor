@@ -9,7 +9,7 @@ using namespace std;
 */
 File::File()
 {
-	file.open("Licensed_Early_Learning_and_Childcare_Facilities.csv");
+	file.open("data.txt");
 	if (!file.is_open()) {
 		throw exception("Error inside the constructor: could not open file");
 	}
@@ -184,7 +184,7 @@ bool File::save(string& newFileName)
 	}
 	else {
 		// write the header
-		file << "Region,District,License Number,Facility Name,Facility Type,Facility Address 1,Facility Address 2,Facility Address 3,Max Number of Children,Max Number of Infants,Max Number of Pre-School Aged Children,Max Number of School Aged Children,Language of Service,Operator ID,Designated Facility" << endl;
+		file << "Region,District,License Number,Facility Name,Facility Type,Facility Address,Max Number of Children,Max Number of Infants,Max Number of Pre-School Aged Children,Max Number of School Aged Children,Language of Service,Operator ID,Designated Facility" << endl;
 
 		// write the data
 		for (int i = 0; i < data.size(); i++) {
@@ -193,9 +193,7 @@ bool File::save(string& newFileName)
 				<< data[i].getLicenseNumber() << ","
 				<< data[i].getFacilityName() << ","
 				<< data[i].getFacilityType() << ","
-				<< data[i].getFacilityAddress1() << ","
-				<< data[i].getFacilityAddress2() << ","
-				<< data[i].getFacilityAddress3() << ","
+				<< data[i].getFacilityAddress1()  + " " + data[i].getFacilityAddress2() + " " + data[i].getFacilityAddress3() << ","
 				<< data[i].getMaxNumberOfChildren() << ","
 				<< data[i].getMaxNumberOfInfants() << ","
 				<< data[i].getMaxNumberOfPreSchoolAgedChildren() << ","
@@ -206,7 +204,7 @@ bool File::save(string& newFileName)
 		}
 	}
 
-	return false;
+	return true;
 }
 
 /**
@@ -617,6 +615,18 @@ bool File::createFacility()
 }
 
 /**
+* @brief Creates a facility
+* Creates a facility
+* @param f The facility to be created
+* @return Whether the facility was created or not
+*/
+bool File::createFacility(Facility& f)
+{
+	data.push_back(f);
+	return true;
+}
+
+/**
 * @brief Searches for a facility by operator ID
 * Searches for a facility by operator ID
 * @param operatorId The operator ID of the facility
@@ -637,7 +647,7 @@ int File::searchFacility(int operatorId)
 * @brief Displays all facilities
 * Displays all facilities
 */
-ostream& File::displayAllFacilities()
+ostream& File::displayAllFacilities() const 
 {
 	for (int i = 0; i < data.size(); i++) {
 		data[i].display(cout);
@@ -646,7 +656,109 @@ ostream& File::displayAllFacilities()
 	return cout;
 }
 
-ostream& File::displayFacility(int operatorId)
+ostream& File::displayLastThreeFacilities() const
+{
+	// TODO: insérer une instruction return ici
+
+	for (int i = data.size() - 3; i < data.size(); i++) {
+		data[i].display(cout);
+	}
+
+	return cout;
+}
+
+void File::sortByRegion()
+{
+	const unordered_map<string, int> regionMap = {
+		{"Region 1 - Moncton", 1},
+		{"Region 2 - Saint John", 2},
+		{"Region 3 - Fredericton", 3},
+		{"Region 4 - Bathurst", 4}
+	};
+
+	sort(data.begin(), data.end(), [&](const Facility& a, const Facility& b) { return regionMap.at(a.getRegion()) < regionMap.at(b.getRegion()); });
+}
+
+void File::sortByDistrict()
+{
+	const unordered_map<string, int> districtMap = {
+		{"Anglophone East School District", 1},
+		{"Anglophone North School District", 2},
+		{"Anglophone South School District", 3},
+		{"Anglophone West School District", 4},
+		{"District scolaire francophone Nord-Est", 5},
+		{"District scolaire francophone Nord-Ouest", 6},
+		{"District scolaire francophone Sud", 7}
+	};
+
+	sort(data.begin(), data.end(), [&](const Facility& a, const Facility& b) { return districtMap.at(a.getDistrict()) < districtMap.at(b.getDistrict()); });
+}
+
+void File::sortByLanguage()
+{
+	const unordered_map<string, int> languageMap = {
+		{"English", 1},
+		{"French", 2},
+		{"Bilingual", 3},
+		{"", 4}
+	};
+	
+	sort(data.begin(), data.end(), [&](const Facility& a, const Facility& b) { return languageMap.at(a.getLanguageOfService()) < languageMap.at(b.getLanguageOfService()); });
+}
+
+void File::sortByType()
+{
+	const unordered_map<string, int> typeMap = {
+		{"Full-time Centre", 1},
+		{"Part-time Centre", 2},
+		{"Home", 3}
+	};
+
+	sort(data.begin(), data.end(), [&](const Facility& a, const Facility& b) { return typeMap.at(a.getFacilityType()) < typeMap.at(b.getFacilityType()); });
+}
+
+set<string> File::getUniqueRegions()
+{
+	set<string> regions;
+	for (int i = 0; i < data.size(); i++) {
+		regions.insert(data[i].getRegion());
+	}
+	return regions;
+}
+
+set<string> File::getUniqueDistricts()
+{
+	set<string> districts;
+	for (int i = 0; i < data.size(); i++) {
+		districts.insert(data[i].getDistrict());
+	}
+	return districts;
+}
+
+set<string> File::getUniqueLanguages()
+{
+	set<string> languages;
+	for (int i = 0; i < data.size(); i++) {
+		languages.insert(data[i].getLanguageOfService());
+	}
+	return languages;
+}
+
+set<string> File::getUniqueTypes()
+{
+	set<string> types; 
+	for (int i = 0; i < data.size(); i++) {
+		types.insert(data[i].getFacilityType());
+	}
+	return types;
+}
+
+/**
+* @brief Displays a facility by operator ID
+* Displays a facility by operator ID
+* @param operatorId The operator ID of the facility
+*/
+ostream& File::displayFacility(int operatorId) 
 {
 	// search for the facility
 	int index = searchFacility(operatorId);

@@ -1,15 +1,25 @@
-#ifndef VIEW_H
-#define VIEW_H
-
+#include <string>
 #include "File.h"
+
+enum class appStatus {
+    SUCCESS,
+    CRITICAL_ERROR_EMERGENCY_EXIT
+};
 
 class View {
 private:
-	File& file;
+    File& file;
 
 public:
-	int run();
-	int menu();
-};
+    appStatus run();
+    int menu();
 
-#endif // !VIEW_H
+    View(File& file) : file(file) {}
+    
+    /**
+	* @brief Signature
+	* @return ostream&
+	* @note This function is used to print the signature of the developer.
+    */
+    ostream& signature() const { return cout << "Developed by Vitor Curado" << endl; }
+};

@@ -6,6 +6,9 @@
 #include <vector>
 #include <sstream>
 #include <iostream>
+#include <algorithm>
+#include <unordered_map>
+#include <set>
 
 using namespace std;
 
@@ -28,15 +31,26 @@ public:
 	int load();
 	int save();
 	bool save(string& newFileName);
+	int searchFacility(int operatorId);
 	bool deleteFacility(int operatorId);
 	bool modifyFacility(int operatorId);
-	bool createFacility();
-	int searchFacility(int operatorId);
-	ostream& displayAllFacilities();
 	ostream& displayFacility(int operatorId);
-	bool isOpen() { return file.is_open(); }
-	bool isGood() { return file.good(); }
-	string getFileName() { return file.is_open() ? fileName : ""; } // Use the new member to return the file name
+	bool createFacility();
+	bool createFacility(Facility& f);
+	ostream& displayAllFacilities() const;
+	ostream& displayLastThreeFacilities() const;
+
+	// Sorting algorithms
+	void sortByRegion();
+	void sortByDistrict();
+	void sortByLanguage();
+	void sortByType();
+
+	// Get unique
+	set<string> getUniqueRegions();
+	set<string> getUniqueDistricts();
+	set<string> getUniqueLanguages();
+	set<string> getUniqueTypes();
 };
 
 #endif // !FILE_H
